@@ -1,0 +1,16 @@
+{
+    "name": "Save Tabs",
+    "description": "Efficiently manage your browser tabs: save, organize, and restore multiple tabs with ease.",
+    "version": "1.0",
+    "manifest_version": 3,
+    "action": {
+      "default_popup": "saveTabs.html",
+      "default_icon": "saveTabs.png"
+    },
+    "host_permissions": ["https://developer.chrome.com/*"],
+    "permissions": [
+      "tabs",
+      "activeTab",
+      "storage"
+    ]
+}
