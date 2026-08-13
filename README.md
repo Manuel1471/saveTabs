@@ -1,5 +1,7 @@
 # Save Tabs
 
+[![CI](https://github.com/<your-user>/saveTabs/actions/workflows/ci.yml/badge.svg)](https://github.com/<your-user>/saveTabs/actions/workflows/ci.yml)
+
 A lightweight Chrome extension that turns the tabs in your current window into a small, persistent reading list. It is built for people who regularly collect research, documentation, or links to revisit without leaving dozens of tabs open.
 
 ![Save Tabs icon](saveTabs.png)
@@ -70,6 +72,19 @@ If you used a previous version, your existing flat list is migrated automaticall
 ## Development
 
 After changing extension files, return to `chrome://extensions` and click the reload icon on Save Tabs. There is no build step or external dependency.
+
+### Checks and tests
+
+Run the automated checks before opening a pull request or packaging a release:
+
+```bash
+npm test
+npm run check
+```
+
+The test suite covers saved-tab migration, search and filtering, manual ordering, duplicate detection, translations, and automatic domain-saving rules. The GitHub Actions workflow runs the same validation on every push and pull request.
+
+For browser-level release checks, follow [test/E2E_CHECKLIST.md](test/E2E_CHECKLIST.md) in Brave and Firefox.
 
 ## License
 
