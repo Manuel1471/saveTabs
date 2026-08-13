@@ -37,13 +37,13 @@ jobs:
 
       - name: Check secure DOM rendering
         run: |
-          if rg -n 'innerHTML|outerHTML|insertAdjacentHTML' popup.js options.js saveTabs.html options.html background.js; then
+          if grep -nE 'innerHTML|outerHTML|insertAdjacentHTML' popup.js options.js saveTabs.html options.html background.js; then
             echo 'Unsafe HTML insertion API found.' >&2
             exit 1
           fi
 
       - name: Validate Firefox package contents
         run: |
-          zip -r save-tabs-ci.zip manifest.json saveTabs.html popup.css popup.js background.js saveTabs.png README.md CHANGELOG.md LICENSE
-          unzip -l save-tabs-ci.zip | rg 'manifest.json|saveTabs.html|popup.js|background.js'
+          zip -r save-tabs-ci.zip manifest.json saveTabs.html popup.css popup.js background.js saveTabs.png options.html options.css options.js PRIVACY.md LICENSE icons
+          unzip -l save-tabs-ci.zip | grep -E 'manifest.json|saveTabs.html|popup.js|background.js|options.js|icons/icon-128.png'
           unzip -p save-tabs-ci.zip manifest.json | node -e "let content = ''; process.stdin.on('data', chunk => content += chunk).on('end', () => JSON.parse(content));"
