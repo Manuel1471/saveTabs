@@ -1,31 +1,72 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./popup.css" />
+    <meta name="theme-color" content="#2563eb" />
+    <title>Save Tabs</title>
+    <link rel="stylesheet" href="popup.css" />
   </head>
-  <body class="container">
-    <div class="header row header-black center">
-      <div class="column center">
-        <img src="./saveTabs.png" width="40px"/>
-        <br>
-        <small class="title-small">Save Tabs</small>
-      </div>
-    </div>
+  <body>
+    <main class="popup">
+      <header class="app-header">
+        <img class="app-logo" src="saveTabs.png" alt="Save Tabs" />
+        <div><p class="eyebrow" data-i18n="library">BIBLIOTECA DE PESTAÑAS</p><h1>Save Tabs</h1></div>
+        <select id="language-select" class="language-select" aria-label="Seleccionar idioma"><option value="es">ES</option><option value="en">EN</option></select>
+        <span id="tab-count" class="tab-count" aria-live="polite">0 guardadas</span>
+      </header>
 
-    <div id="content"class="container-content center">
-      <div class="column center card">
-        <div id="table">
+      <section class="session-bar" aria-label="Controles de sesión">
+        <div id="session-list" class="session-list" data-i18n-aria="currentSession" aria-label="Sesión actual"></div>
+        <button id="new-session" class="icon-button" type="button" data-i18n-title="newSession" data-i18n-aria="newSession" title="Crear sesión" aria-label="Crear sesión">+</button>
+        <button id="rename-session" class="icon-button icon-button-small" type="button" data-i18n-title="renameSession" data-i18n-aria="renameSession" title="Renombrar sesión" aria-label="Renombrar sesión">✎</button>
+        <button id="delete-session" class="icon-button icon-button-danger" type="button" data-i18n-title="deleteSession" data-i18n-aria="deleteSession" title="Eliminar sesión" aria-label="Eliminar sesión">×</button>
+      </section>
+
+      <section class="filters" aria-label="Filtrar pestañas guardadas">
+        <div class="search-wrap"><span aria-hidden="true">⌕</span><input id="search-tabs" type="search" data-i18n-placeholder="searchPlaceholder" data-i18n-aria="searchTabs" placeholder="Buscar título, URL o etiqueta" aria-label="Buscar pestañas guardadas" /><button id="clear-search" type="button" data-i18n-title="clearSearch" data-i18n-aria="clearSearch" aria-label="Limpiar búsqueda" title="Limpiar búsqueda">×</button></div>
+        <select id="tag-filter" data-i18n-aria="filterTag" aria-label="Filtrar por etiqueta"><option value="" data-i18n="allTags">Todas</option></select>
+        <select id="sort-tabs" data-i18n-aria="sortTabs" aria-label="Ordenar pestañas">
+          <option value="manual" data-i18n="manual">Manual</option><option value="newest" data-i18n="newest">Recientes</option><option value="oldest" data-i18n="oldest">Antiguas</option><option value="title" data-i18n="titleSort">Título A–Z</option><option value="domain" data-i18n="domainSort">Dominio A–Z</option>
+        </select>
+      </section>
+
+      <section class="toolbar" aria-label="Controles de pestañas guardadas">
+        <label class="select-all-label"><input id="select-all" type="checkbox" /><span data-i18n="selectVisible">Seleccionar visibles</span></label>
+        <span id="selection-count" class="selection-count">Sin selección</span>
+      </section>
+      <section id="tab-list" class="tab-list" aria-live="polite"></section>
+
+      <footer class="actions">
+        <button id="save-tabs" class="button button-primary" type="button"><span aria-hidden="true">+</span> <span data-i18n="saveCurrent">Guardar pestañas actuales</span></button>
+        <div class="secondary-actions">
+          <button id="open-selected" class="button button-secondary" type="button" disabled data-i18n="open">Abrir</button>
+          <button id="pin-selected" class="button button-secondary" type="button" disabled data-i18n="pin">Fijar</button>
+          <button id="tag-selected" class="button button-secondary" type="button" disabled data-i18n="tag">Etiquetar</button>
+          <button id="note-selected" class="button button-secondary" type="button" disabled data-i18n="note">Nota</button>
+          <button id="delete-selected" class="button button-danger" type="button" disabled data-i18n="delete">Eliminar</button>
         </div>
-      </div>
-    </div>
-
-    <div id="button_container" class="center row button-container">
-    </div>
-
-
-    <script src="./popup.js" type="module"></script>
+        <div class="utility-actions">
+          <button id="export-tabs" class="text-button" type="button" data-i18n="export">Exportar</button>
+          <label class="text-button file-button"><span data-i18n="import">Importar</span><input id="import-tabs" type="file" accept="application/json" /></label>
+          <button id="rules" class="text-button" type="button" data-i18n="rules">Reglas</button><button id="check-links" class="text-button" type="button" disabled data-i18n="checkLinks">Comprobar enlaces</button><button id="history" class="text-button" type="button" data-i18n="history">Historial</button><button id="sync-toggle" class="text-button" type="button" data-i18n="enableSync">Activar sincronización</button>
+          <button id="undo-delete" class="text-button" type="button" disabled data-i18n="undoDelete">Deshacer eliminación</button>
+        </div>
+      </footer>
+    </main>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <dialog id="text-dialog" class="dialog">
+      <form method="dialog">
+        <div class="dialog-header"><h2 id="dialog-title">Nueva sesión</h2><button class="dialog-close" value="cancel" data-i18n-aria="close" aria-label="Cerrar">×</button></div>
+        <label id="dialog-label" for="dialog-input">Nombre</label>
+        <input id="dialog-input" required maxlength="60" autocomplete="off" />
+        <p id="dialog-help" class="dialog-help"></p>
+        <div class="dialog-actions"><button class="button button-secondary" value="cancel" data-i18n="cancel">Cancelar</button><button id="dialog-submit" class="button button-primary" value="default">Guardar</button></div>
+      </form>
+    </dialog>
+    <dialog id="history-dialog" class="dialog">
+      <div class="history-dialog"><div class="dialog-header"><h2 data-i18n="history">Historial</h2><button class="dialog-close" type="button" data-close-history aria-label="Cerrar">×</button></div><div id="history-list" class="history-list"></div></div>
+    </dialog>
+    <script src="popup.js" type="module"></script>
   </body>
 </html>

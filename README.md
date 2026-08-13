@@ -1,64 +1,80 @@
-# Save Tabs - Chrome Extension
+# Save Tabs
 
-A powerful Chrome extension for efficiently managing your browser tabs. Save, organize, and restore multiple tabs with ease, perfect for researchers, students, and professionals who work with numerous tabs.
+A lightweight Chrome extension that turns the tabs in your current window into a small, persistent reading list. It is built for people who regularly collect research, documentation, or links to revisit without leaving dozens of tabs open.
 
-## Features
+![Save Tabs icon](saveTabs.png)
 
-- **Save Current Tabs**: Save all open tabs from your current window with a single click
-- **Smart Saving**: Automatically prevents duplicate tabs when saving
-- **Selective Management**: 
-  - Select specific tabs to open or delete
-  - Open multiple saved tabs at once
-  - Delete unwanted saved tabs easily
-- **Persistent Storage**: Tabs remain saved even after browser restart
+## What it does
 
-## Installation
+- Saves every tab in the current window to local browser storage.
+- Avoids duplicates by URL, so saving the same window twice is safe.
+- Shows saved tabs as a compact, readable list with the site domain.
+- Lets you select all or only a few tabs, then open or delete them in bulk.
+- Organizes tabs into named sessions, with search, tag filters, and sorting.
+- Imports and exports your library as a JSON backup, and lets you undo the last deletion.
+- Keeps saved tabs after Chrome is restarted.
+- Supports manual drag-and-drop ordering for tabs and sessions.
+- Lets you pin tabs, attach notes, flag duplicate URLs across sessions, and check selected links on demand.
+- Can auto-save matching domains into a session and optionally mirror your library with Chrome Sync.
+- Keeps lightweight history snapshots that can restore the most recent library state.
 
-1. Clone this repository or download the ZIP file
-```bash
-git clone https://github.com/yourusername/save-tabs.git
-```
+## Install locally
 
-2. Open Chrome and navigate to `chrome://extensions/`
-3. Enable "Developer mode" in the top right corner
-4. Click "Load unpacked" and select the extension directory
+1. Download this repository or clone it:
 
-## Usage
+   ```bash
+   git clone https://github.com/<your-user>/saveTabs.git
+   ```
 
-1. Click the extension icon in your Chrome toolbar
-2. Click "Save tabs" to store all currently open tabs
-3. View your saved tabs in the table
-4. Use checkboxes to select specific tabs
-5. Choose to:
-   - Open selected tabs with "Open selected tabs"
-   - Remove unwanted tabs with "Delete selected tabs"
+2. In Chrome, open `chrome://extensions`.
+3. Turn on **Developer mode**.
+4. Choose **Load unpacked** and select this project folder.
+5. Pin **Save Tabs** from the extensions menu if you want it visible in the toolbar.
 
-## Technical Details
+## How to use it
 
-The extension uses:
-- Chrome Storage API for persistent data
-- Chrome Tabs API for tab management
-- Modern JavaScript (async/await)
-- CSS3 for styling
-- HTML5 for structure
+1. Open the tabs you want to keep in one browser window.
+2. Click the Save Tabs icon and select **Save current tabs**.
+3. Usa el selector de sesiones para separar trabajo, investigación y colecciones personales. Crea una sesión con **+** y renómbrala con **✎**.
+4. Busca por título, URL o etiqueta; filtra por etiqueta; u ordena la lista. `⌘/Ctrl + K` lleva el foco al buscador.
+5. Selecciona una o más entradas y usa **Abrir**, **Etiquetar** o **Eliminar**. Puedes quitar una etiqueta individual haciendo clic sobre ella.
+6. Selecciona **Deshacer eliminación** para restaurar el último grupo eliminado y usa **Exportar**/**Importar** para respaldos portables.
+7. Usa el selector **ES/EN** de la cabecera para cambiar toda la interfaz entre español e inglés. La elección se conserva para futuras aperturas.
 
-## Permissions Required
+Atajo adicional: `⌘/Ctrl + Enter` guarda las pestañas actuales de la ventana.
 
-- `tabs`: To access and manage browser tabs
-- `storage`: To save tabs data locally
+Clicking a saved tab title also opens that tab directly.
 
-## Contributing
+## Privacy and permissions
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Save Tabs stores its data only in `chrome.storage.local`; it does not send saved URLs or titles to a server.
+
+| Permission | Why it is needed |
+| --- | --- |
+| `tabs` | Read the title and URL of tabs in the current window and open selected saved tabs. |
+| `storage` | Persist the local saved-tab library. |
+
+## Project structure
+
+| File | Purpose |
+| --- | --- |
+| `manifest.json` | Manifest V3 configuration and required permissions. |
+| `saveTabs.html` | Popup structure. |
+| `popup.css` | Responsive popup design and interaction states. |
+| `popup.js` | Storage, selection, rendering, and tab actions. |
+
+## Data migration
+
+If you used a previous version, your existing flat list is migrated automatically into a session called **Mis pestañas** the first time you open version 1.2.0. No manual migration is required.
+
+## Development
+
+After changing extension files, return to `chrome://extensions` and click the reload icon on Save Tabs. There is no build step or external dependency.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Released under the [MIT License](LICENSE).
 
-## Support
+## Changelog
 
-If you encounter any issues or have suggestions, please open an issue in the repository.
-
----
-
-Made with ❤️ for tab organization enthusiasts
+See [CHANGELOG.md](CHANGELOG.md) for the complete history of features and changes by version.
