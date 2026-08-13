@@ -73,6 +73,19 @@ If you used a previous version, your existing flat list is migrated automaticall
 
 After changing extension files, return to `chrome://extensions` and click the reload icon on Save Tabs. There is no build step or external dependency.
 
+### Checks and tests
+
+Run the automated checks before opening a pull request or packaging a release:
+
+```bash
+npm test
+npm run check
+```
+
+The test suite covers saved-tab migration, search and filtering, manual ordering, duplicate detection, translations, and automatic domain-saving rules. The GitHub Actions workflow runs the same validation on every push and pull request.
+
+For browser-level release checks, follow [test/E2E_CHECKLIST.md](test/E2E_CHECKLIST.md) in Brave and Firefox.
+
 ## License
 
 Released under the [MIT License](LICENSE).

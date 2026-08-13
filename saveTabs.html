@@ -12,15 +12,21 @@
       <header class="app-header">
         <img class="app-logo" src="saveTabs.png" alt="Save Tabs" />
         <div><p class="eyebrow" data-i18n="library">BIBLIOTECA DE PESTAÑAS</p><h1>Save Tabs</h1></div>
-        <select id="language-select" class="language-select" aria-label="Seleccionar idioma"><option value="es">ES</option><option value="en">EN</option></select>
+        <button id="language-toggle" class="language-toggle" type="button" aria-label="Cambiar idioma" title="Cambiar idioma">ES</button>
+        <button id="expand-library" class="header-icon" type="button" aria-label="Abrir biblioteca ampliada" title="Abrir biblioteca ampliada"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" /></svg></button>
         <span id="tab-count" class="tab-count" aria-live="polite">0 guardadas</span>
       </header>
+      <nav class="view-tabs" aria-label="Navegación de Save Tabs">
+        <button id="library-view" class="view-tab active" type="button" data-i18n="tabsView">Pestañas</button>
+        <button id="tools-view" class="view-tab" type="button" data-i18n="toolsView">Herramientas</button>
+      </nav>
 
+      <section class="library-content">
       <section class="session-bar" aria-label="Controles de sesión">
         <div id="session-list" class="session-list" data-i18n-aria="currentSession" aria-label="Sesión actual"></div>
-        <button id="new-session" class="icon-button" type="button" data-i18n-title="newSession" data-i18n-aria="newSession" title="Crear sesión" aria-label="Crear sesión">+</button>
-        <button id="rename-session" class="icon-button icon-button-small" type="button" data-i18n-title="renameSession" data-i18n-aria="renameSession" title="Renombrar sesión" aria-label="Renombrar sesión">✎</button>
-        <button id="delete-session" class="icon-button icon-button-danger" type="button" data-i18n-title="deleteSession" data-i18n-aria="deleteSession" title="Eliminar sesión" aria-label="Eliminar sesión">×</button>
+        <button id="new-session" class="icon-button" type="button" data-i18n-title="newSession" data-i18n-aria="newSession" title="Crear sesión" aria-label="Crear sesión"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg></button>
+        <button id="rename-session" class="icon-button" type="button" data-i18n-title="renameSession" data-i18n-aria="renameSession" title="Renombrar sesión" aria-label="Renombrar sesión"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 16.5-.5 4 4-.5L19 8.5 15.5 5 4 16.5Z M13.5 7l3.5 3.5" /></svg></button>
+        <button id="delete-session" class="icon-button icon-button-danger" type="button" data-i18n-title="deleteSession" data-i18n-aria="deleteSession" title="Eliminar sesión" aria-label="Eliminar sesión"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 11v6m4-6v6M9 7l1-2h4l1 2m-8 0 1 13h8l1-13" /></svg></button>
       </section>
 
       <section class="filters" aria-label="Filtrar pestañas guardadas">
@@ -33,7 +39,7 @@
 
       <section class="toolbar" aria-label="Controles de pestañas guardadas">
         <label class="select-all-label"><input id="select-all" type="checkbox" /><span data-i18n="selectVisible">Seleccionar visibles</span></label>
-        <span id="selection-count" class="selection-count">Sin selección</span>
+        <span id="selection-count" class="selection-count" data-i18n="noSelection">Sin selección</span>
       </section>
       <section id="tab-list" class="tab-list" aria-live="polite"></section>
 
@@ -41,32 +47,47 @@
         <button id="save-tabs" class="button button-primary" type="button"><span aria-hidden="true">+</span> <span data-i18n="saveCurrent">Guardar pestañas actuales</span></button>
         <div class="secondary-actions">
           <button id="open-selected" class="button button-secondary" type="button" disabled data-i18n="open">Abrir</button>
-          <button id="pin-selected" class="button button-secondary" type="button" disabled data-i18n="pin">Fijar</button>
-          <button id="tag-selected" class="button button-secondary" type="button" disabled data-i18n="tag">Etiquetar</button>
-          <button id="note-selected" class="button button-secondary" type="button" disabled data-i18n="note">Nota</button>
           <button id="delete-selected" class="button button-danger" type="button" disabled data-i18n="delete">Eliminar</button>
-        </div>
-        <div class="utility-actions">
-          <button id="export-tabs" class="text-button" type="button" data-i18n="export">Exportar</button>
-          <label class="text-button file-button"><span data-i18n="import">Importar</span><input id="import-tabs" type="file" accept="application/json" /></label>
-          <button id="rules" class="text-button" type="button" data-i18n="rules">Reglas</button><button id="check-links" class="text-button" type="button" disabled data-i18n="checkLinks">Comprobar enlaces</button><button id="history" class="text-button" type="button" data-i18n="history">Historial</button><button id="sync-toggle" class="text-button" type="button" data-i18n="enableSync">Activar sincronización</button>
-          <button id="undo-delete" class="text-button" type="button" disabled data-i18n="undoDelete">Deshacer eliminación</button>
+          <details class="action-menu"><summary data-i18n="more">Más</summary><div><button id="pin-selected" class="menu-button" type="button" disabled data-i18n="pin">Fijar</button><button id="tag-selected" class="menu-button" type="button" disabled data-i18n="tag">Etiquetar</button><button id="note-selected" class="menu-button" type="button" disabled data-i18n="note">Nota</button></div></details>
         </div>
       </footer>
+      </section>
+      <section class="tools-content" aria-live="polite">
+        <div class="tools-intro"><h2 data-i18n="toolsTitle">Organiza tu biblioteca</h2><p data-i18n="toolsDescription">Importa, respalda y administra tus pestañas guardadas.</p></div>
+        <div class="tool-grid">
+          <button id="export-tabs" class="tool-card" type="button"><span aria-hidden="true">↓</span><strong data-i18n="export">Exportar</strong><small data-i18n="exportHint">Descarga un respaldo</small></button>
+          <label class="tool-card"><span aria-hidden="true">↑</span><strong data-i18n="import">Importar</strong><small data-i18n="importHint">Fusiona un respaldo</small><input id="import-tabs" type="file" accept="application/json" /></label>
+          <button id="rules" class="tool-card" type="button"><span aria-hidden="true">◎</span><strong data-i18n="rules">Reglas</strong><small data-i18n="rulesHint">Guardado automático</small></button>
+          <button id="history" class="tool-card" type="button"><span aria-hidden="true">↶</span><strong data-i18n="history">Historial</strong><small data-i18n="historyHint">Restaura cambios</small></button>
+          <button id="sync-toggle" class="tool-card" type="button"><span aria-hidden="true">↔</span><strong data-i18n="sync">Sincronización</strong><small data-i18n="syncHint">Mantén tus datos</small></button>
+          <button id="undo-delete" class="tool-card" type="button" disabled><span aria-hidden="true">↩</span><strong data-i18n="undoDelete">Deshacer eliminación</strong><small data-i18n="undoHint">Recupera pestañas</small></button>
+        </div>
+        <button id="check-links" class="link-tool" type="button" disabled data-i18n="checkLinks">Comprobar enlaces</button>
+        <section id="tools-settings" class="tools-settings" hidden>
+          <div class="tools-intro"><h2 data-i18n="settings">Configuración</h2><p data-i18n="settingsDescription">Personaliza Save Tabs sin salir de tu biblioteca.</p></div>
+          <label><span data-i18n="languageSetting">Idioma</span><select id="inline-language"><option value="es">Español</option><option value="en">English</option></select></label>
+          <label><span data-i18n="themeSetting">Tema</span><select id="inline-theme"><option value="light">Claro</option><option value="dark">Oscuro</option></select></label>
+          <label class="inline-toggle"><input id="inline-sync" type="checkbox" /><span data-i18n="enableSync">Activar sincronización</span></label>
+          <label class="inline-toggle"><input id="inline-backups" type="checkbox" /><span data-i18n="scheduledBackups">Respaldos programados</span></label>
+          <div class="rules-inline"><div><strong data-i18n="rules">Reglas</strong><p id="inline-rules"></p></div><button id="add-inline-rule" class="mini-primary" type="button" data-i18n="addRule">Agregar regla</button></div>
+        </section>
+      </section>
     </main>
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
     <dialog id="text-dialog" class="dialog">
       <form method="dialog">
-        <div class="dialog-header"><h2 id="dialog-title">Nueva sesión</h2><button class="dialog-close" value="cancel" data-i18n-aria="close" aria-label="Cerrar">×</button></div>
+        <div class="dialog-header"><h2 id="dialog-title">Nueva sesión</h2><button class="dialog-close" type="button" data-close-text-dialog data-i18n-aria="close" aria-label="Cerrar">×</button></div>
         <label id="dialog-label" for="dialog-input">Nombre</label>
         <input id="dialog-input" required maxlength="60" autocomplete="off" />
         <p id="dialog-help" class="dialog-help"></p>
-        <div class="dialog-actions"><button class="button button-secondary" value="cancel" data-i18n="cancel">Cancelar</button><button id="dialog-submit" class="button button-primary" value="default">Guardar</button></div>
+        <div class="dialog-actions"><button class="button button-secondary" type="button" data-close-text-dialog data-i18n="cancel">Cancelar</button><button id="dialog-submit" class="button button-primary" value="default">Guardar</button></div>
       </form>
     </dialog>
     <dialog id="history-dialog" class="dialog">
       <div class="history-dialog"><div class="dialog-header"><h2 data-i18n="history">Historial</h2><button class="dialog-close" type="button" data-close-history aria-label="Cerrar">×</button></div><div id="history-list" class="history-list"></div></div>
     </dialog>
+    <dialog id="edit-tab-dialog" class="dialog"><form method="dialog"><div class="dialog-header"><h2 data-i18n="editTab">Editar pestaña</h2><button class="dialog-close" type="button" data-close-edit-dialog aria-label="Cerrar">×</button></div><label data-i18n="titleLabel" for="edit-tab-title">Título</label><input id="edit-tab-title" required maxlength="180" /><label data-i18n="noteLabel" for="edit-tab-note">Nota</label><input id="edit-tab-note" maxlength="300" /><label data-i18n="tags" for="edit-tab-tags">Etiquetas</label><input id="edit-tab-tags" maxlength="180" /><label data-i18n="moveTo" for="edit-tab-session">Mover a sesión</label><select id="edit-tab-session"></select><div class="dialog-actions"><button class="button button-secondary" type="button" data-close-edit-dialog data-i18n="cancel">Cancelar</button><button class="button button-primary" value="save" data-i18n="save">Guardar</button></div></form></dialog>
+    <dialog id="import-dialog" class="dialog"><form method="dialog"><div class="dialog-header"><h2 data-i18n="importPreview">Vista previa de importación</h2><button class="dialog-close" type="button" data-close-import-dialog aria-label="Cerrar">×</button></div><p id="import-summary" class="dialog-help"></p><div class="dialog-actions"><button class="button button-secondary" type="button" data-close-import-dialog data-i18n="cancel">Cancelar</button><button id="confirm-import" class="button button-primary" value="save" data-i18n="importConfirm">Importar y fusionar</button></div></form></dialog>
     <script src="popup.js" type="module"></script>
   </body>
 </html>

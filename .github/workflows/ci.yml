@@ -30,10 +30,14 @@ jobs:
         run: |
           node --check popup.js
           node --check background.js
+          node --check options.js
+
+      - name: Run unit tests
+        run: npm test
 
       - name: Check secure DOM rendering
         run: |
-          if rg -n 'innerHTML|outerHTML|insertAdjacentHTML' popup.js saveTabs.html background.js; then
+          if rg -n 'innerHTML|outerHTML|insertAdjacentHTML' popup.js options.js saveTabs.html options.html background.js; then
             echo 'Unsafe HTML insertion API found.' >&2
             exit 1
           fi
