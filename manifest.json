@@ -7,10 +7,19 @@
       "default_popup": "saveTabs.html",
       "default_icon": "saveTabs.png"
     },
-    "background": { "service_worker": "background.js" },
+    "background": {
+      "service_worker": "background.js",
+      "scripts": ["background.js"]
+    },
     "optional_host_permissions": ["<all_urls>"],
     "permissions": [
       "tabs",
       "storage"
-    ]
+    ],
+    "browser_specific_settings": {
+      "gecko": {
+        "id": "manuel-garccia@hotmail.com",
+        "strict_min_version": "121.0"
+      }
+    }
 }

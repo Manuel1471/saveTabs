@@ -173,7 +173,23 @@ class TabManager {
     if (tab.note) { const note = document.createElement('span'); note.className = 'tab-note'; note.textContent = `✎ ${tab.note}`; note.title = tab.note; details.append(note); }
     const external = document.createElement('a'); external.className = 'external'; external.href = tab.url; external.target = '_blank'; external.rel = 'noreferrer'; external.textContent = '↗'; external.setAttribute('aria-label', this.t('openTab', { name: tab.title })); item.append(checkbox, details, external); return item;
   }
-  createEmptyState() { const state = document.createElement('div'); state.className = 'empty-state'; const isFiltering = this.elements.searchTabs.value || this.elements.tagFilter.value; state.innerHTML = `<div><div class="empty-icon" aria-hidden="true">${isFiltering ? '⌕' : '⌑'}</div><h2>${this.t(isFiltering ? 'noResults' : 'emptySession')}</h2><p>${this.t(isFiltering ? 'noResultsText' : 'emptySessionText')}</p></div>`; return state; }
+  createEmptyState() {
+    const state = document.createElement('div');
+    state.className = 'empty-state';
+    const isFiltering = this.elements.searchTabs.value || this.elements.tagFilter.value;
+    const content = document.createElement('div');
+    const icon = document.createElement('div');
+    icon.className = 'empty-icon';
+    icon.setAttribute('aria-hidden', 'true');
+    icon.textContent = isFiltering ? '⌕' : '⌑';
+    const title = document.createElement('h2');
+    title.textContent = this.t(isFiltering ? 'noResults' : 'emptySession');
+    const description = document.createElement('p');
+    description.textContent = this.t(isFiltering ? 'noResultsText' : 'emptySessionText');
+    content.append(icon, title, description);
+    state.append(content);
+    return state;
+  }
   formatUrl(url) { try { return new URL(url).hostname.replace(/^www\./, '') || url; } catch { return url; } }
   updateControls(visible) {
     const total = this.currentSession.tabs.length; const selected = this.selectedTabs().length; const visibleSelected = visible.filter(tab => this.selectedIds.has(tab.id)).length;

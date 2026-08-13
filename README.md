@@ -1,5 +1,7 @@
 # Save Tabs
 
+[![CI](https://github.com/<your-user>/saveTabs/actions/workflows/ci.yml/badge.svg)](https://github.com/<your-user>/saveTabs/actions/workflows/ci.yml)
+
 A lightweight Chrome extension that turns the tabs in your current window into a small, persistent reading list. It is built for people who regularly collect research, documentation, or links to revisit without leaving dozens of tabs open.
 
 ![Save Tabs icon](saveTabs.png)
